@@ -9,7 +9,7 @@ setup-ai: setup-ai-instructions
 setup-ai-instructions: goosehints copilot-instructions
 
 gh-add-topics:
-  gh repo edit --add-topic "{{project_name}},monarchinitiative,ai4curation"
+  gh repo edit --add-topic "monarchinitiative,ai4curation"
 
 gh-add-secrets:
   gh secret set PAT_FOR_PR --body "$PAT_FOR_PR"

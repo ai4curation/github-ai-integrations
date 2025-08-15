@@ -4,9 +4,11 @@ goosehints:
 copilot-instructions:
   [ -f .github/copilot-instructions.md ] || cd .github && ln -s ../CLAUDE.md copilot-instructions.md
 
-setup-ai: setup-ai-instructions 
+setup-ai: setup-ai-instructions setup-gh
 
 setup-ai-instructions: goosehints copilot-instructions
+
+setup-gh: gh-add-topics gh-add-secrets
 
 gh-add-topics:
   gh repo edit --add-topic "monarchinitiative,ai4curation"

@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier
+_src_path: .
+add_example: true
+copyright_year: '2025'
+email: my-name@my-org.org
+full_name: My Name
+gh_action_docs_preview: false
+gh_action_pypi: true
+github_org: my-org
+github_handle: me
+license: MIT
+project_description: This is the project description.
+project_name: my-awesome-schema
+project_slug: my_awesome_schema
+

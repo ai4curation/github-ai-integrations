@@ -1,0 +1,53 @@
+# === Include other yaml files (optional) ===
+# https://copier.readthedocs.io/en/stable/configuring/#include-other-yaml-files
+
+
+# === Questions to answer when generating a project from this template. ===
+# https://copier.readthedocs.io/en/stable/configuring/#advanced-prompt-formatting
+
+# intended as an overlay
+# https://copier.readthedocs.io/en/stable/faq/#can-copier-be-applied-over-a-preexisting-project
+
+
+project_name:
+  type: str
+  help: What is your github project name?
+  default: my-awesome-tool
+
+github_handle:
+  help: github username of the author. Will be assigned as a-controller
+  type: str
+  default: "cmungall"
+
+# === copier configuration options ===
+# https://copier.readthedocs.io/en/stable/configuring/#available-settings
+
+_subdirectory: template
+_min_copier_version: "9.4.0"
+_exclude:
+  # Files or dirs in template/ that should not be copied to the project
+  - "copier.yaml"
+  - "copier.yml"
+  - "~*"
+  - "*.py[co]"
+  - "__pycache__"
+  - ".git"
+
+_skip_if_exists:
+  # Files or dirs to not overwrite/update if they already exist in the project
+  - CLAUDE.md
+  - .goosehints
+
+_message_after_copy: |
+
+  ** PROJECT CREATION COMPLETE **
+
+  Next step (if you have not previously initialized your project)
+  run "just setup" in the root of your project directory.
+
+_migrations:
+  # Migrations are only run on update (not on copy) and only if the update goes
+  # through or to the specified version.
+  - version: v0.2.0
+    command: just _post_upgrade_v020
+    when: "{{ _stage == 'after' }}"

@@ -1,0 +1,5 @@
+# Ref: https://github.com/codespell-project/codespell (spell checker)
+[codespell]
+skip = .git,*.pdf,*.svg,LICENSE,pyproject.toml.jinja
+# Reminder: words have to be lowercased for the ignore-words-list
+ignore-words-list = linke

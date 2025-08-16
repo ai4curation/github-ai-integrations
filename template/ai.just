@@ -18,5 +18,5 @@ gh-add-secrets:
   gh secret set ANTHROPIC_API_KEY --body "$ANTHROPIC_API_KEY"
   gh secret set OPENAI_API_KEY --body "$OPENAI_API_KEY"
   gh secret set CBORG_API_KEY --body "$CBORG_API_KEY"
-  gh secret set CLAUDE_CODE_OATH_TOKEN --body "$CLAUDE_CODE_OATH_TOKEN"
+  gh secret set CLAUDE_CODE_OAUTH_TOKEN --body "$CLAUDE_CODE_OAUTH_TOKEN"
 

@@ -10,7 +10,7 @@ For more background, please see:
 
 In an existing repo, run this:
 
-`copier copy https://github.com/ai4curation/github-ai-integration .`
+`copier copy https://github.com/ai4curation/github-ai-integrations .`
 
 ## Setting up GitHub secrets
 

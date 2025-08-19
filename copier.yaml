@@ -14,11 +14,47 @@ project_name:
   help: What is your github project name?
   default: my-awesome-tool
 
+project_slug:
+  type: str
+  help: A slug of the name. Must be a valid and unused Python package name.
+  default: >-
+    {% from pathjoin('includes', 'slugify.jinja') import slugify -%}
+    {{ slugify(project_name) }}
+  # regex_search is part of a jinja extension loaded by default.
+  # It is case insensitive by default. We need to set ignorecase=False to make
+  # it case sensitive.
+  validator: >-
+    {% if not (project_slug | regex_search('^[a-z][_a-z0-9\-]+$',
+       ignorecase=False)) %}
+    project_slug must start with a lowercase letter, followed by lowercase
+    letters, digits, dashes or underscores.
+    {% endif %}
+
 github_handle:
   help: github username of the author. Will be assigned as a-controller
   type: str
   default: "cmungall"
 
+project_description:
+  help: A short description of the project
+  type: str
+  default: This is the project description.  
+  
+is_linkml_schema:
+  help: Is this repo primarily for managing a linkml schema?
+  type: bool
+  default: false
+  
+is_python_project:
+  help: Is this a python repo?
+  type: bool
+  default: true
+  
+is_ontology_project:
+  help: Doe this repo contain the source/edit files for one or more ontologies?
+  type: bool
+  default: false
+  
 # === copier configuration options ===
 # https://copier.readthedocs.io/en/stable/configuring/#available-settings
 
@@ -42,8 +78,17 @@ _message_after_copy: |
 
   ** PROJECT CREATION COMPLETE **
 
-  Next step (if you have not previously initialized your project)
-  run "just setup" in the root of your project directory.
+  Next steps:
+
+  1. Adjust your CLAUDE.md
+
+  2. Perform additional claude configuration (e.g. `/agents/`)
+    
+  3. if your project is already on GitHub, and your keys are set as env vars, then run:
+
+     `just setup-ai`
+
+  
 
 _migrations:
   # Migrations are only run on update (not on copy) and only if the update goes

@@ -3,6 +3,32 @@
 This template uses the code-scaffolding tool [copier](https://copier.readthedocs.io/) to apply AI integrations to an existing project.
 See [Applying multiple templates to the same subproject](https://copier.readthedocs.io/en/stable/configuring/#applying-multiple-templates-to-the-same-subproject)
 
+## Background
+
+**AI GitHub Actions** enable autonomous AI agents to respond to GitHub events like issue creation, pull requests, and comments. These agents can understand natural language requests and perform tasks like code reviews, documentation updates, and issue management automatically.
+
+### Key Benefits
+- **Autonomous Response**: AI agents automatically respond to GitHub issues and PRs
+- **Natural Language Interface**: Communicate with your repository using plain English
+- **Cost-Effective Automation**: Reduce manual maintenance while keeping humans in control
+- **Flexible Configuration**: Customize agent behavior through configuration files
+
+### Architecture
+The system works by:
+1. **GitHub Actions Workflow**: Triggers on repository events (issues, PRs, comments)
+2. **AI Agent Integration**: Connects to AI providers (Anthropic Claude, OpenAI) via API
+3. **Configuration-Driven**: Uses `.config/goose/config.yaml` and `.goosehints` files to define behavior
+4. **Repository Integration**: AI agents can read, analyze, and modify repository content
+
+### Important Considerations
+⚠️ **Cost Warning**: Agentic AI usage can be costly. Carefully evaluate and monitor AI agent interactions to manage expenses.
+
+### Prerequisites
+- GitHub repository with Actions enabled
+- API access to AI providers (Anthropic, OpenAI)
+- Basic understanding of GitHub Actions
+- Optional: LiteLLM proxy for advanced API management
+
 ## What it does
 
 - **AI Issue Management**: Automatically responds to GitHub issues using AI agents

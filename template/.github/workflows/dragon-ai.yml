@@ -1,3 +1,8 @@
+# DRAGON-AI GitHub action
+# ---
+# This github action is from the copier template in https://github.com/ai4curation/github-ai-integrations, donated by the Monarch Initiative
+# For more documentation, see https://ai4curation.github.io/aidocs/how-tos/set-up-github-actions/
+# Author: Chris Mungall (@cmungall)
 name: Dragon AI Agent GitHub Mentions
 
 env:

@@ -31,7 +31,7 @@ project_slug:
     {% endif %}
 
 github_handle:
-  help: github username of the author. Will be assigned as a-controller
+  help: github username of the author. Will be assigned as ai-controller
   type: str
   default: "cmungall"
 

@@ -94,6 +94,19 @@ CBORG_API_KEY
 
 ### Setup
 
-After setting up env vars:
+After running copier and setting up environment variables, run the following command to complete the AI integration setup:
 
-`just -f ai.just setup-ai`
+```bash
+just -f ai.just setup-ai
+```
+
+This command performs two main setup tasks:
+
+1. **AI Agent Configuration** (`setup-ai-instructions`):
+   - Creates `CLAUDE.md` symlink to `AGENTS.md` for Claude Code instructions
+   - Creates `.goosehints` symlink to `AGENTS.md` for Goose agent instructions  
+   - Creates `.github/copilot-instructions.md` symlink to `AGENTS.md` for GitHub Copilot instructions
+
+2. **GitHub Repository Setup** (`setup-gh`):
+   - Adds repository topics for discoverability (`monarchinitiative,ai4curation`)
+   - Configures repository secrets from your environment variables (PAT_FOR_PR, ANTHROPIC_API_KEY, etc.)

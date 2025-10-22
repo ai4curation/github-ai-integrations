@@ -9,7 +9,7 @@
 # https://copier.readthedocs.io/en/stable/faq/#can-copier-be-applied-over-a-preexisting-project
 
 
-xxxxproject_name:
+project_name:
   type: str
   help: What is your github project name?
   default: my-awesome-tool

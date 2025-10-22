@@ -15,11 +15,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
 
       - name: Run Claude Issue summarize
         uses: ./.github/actions/claude-issue-summarize-action
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           cborg_api_key: ${{ secrets.CBORG_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          install_artl_mcp: "true"

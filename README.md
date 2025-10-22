@@ -96,6 +96,7 @@ CBORG_API_KEY
 
 After running copier and setting up environment variables, run the following command to complete the AI integration setup:
 
+
 ```bash
 just -f ai.just setup-ai
 ```
@@ -110,3 +111,17 @@ This command performs two main setup tasks:
 2. **GitHub Repository Setup** (`setup-gh`):
    - Adds repository topics for discoverability (`monarchinitiative,ai4curation`)
    - Configures repository secrets from your environment variables (PAT_FOR_PR, ANTHROPIC_API_KEY, etc.)
+
+# FAQ
+
+## `claude-review.yml` fails PR check on first run
+
+This is normal: see this comment in the action logs:
+
+```
+Error: Failed to setup GitHub token: Error: Workflow validation failed. The workflow file must exist and have identical content to the version on the repository's default branch. If you're seeing this on a PR when you first add a code review workflow file to your repository, this is normal and you should ignore this error.
+
+If you instead wish to use this action with a custom GitHub token or custom GitHub app, provide a `github_token` in the `uses` section of the app in your workflow yml file.
+Error: Process completed with exit code 1.
+```
+

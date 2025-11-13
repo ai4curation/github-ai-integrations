@@ -1,0 +1,82 @@
+{% if include_devcontainer -%}
+#!/bin/bash
+set -e
+
+echo "🚀 Running post-create setup for {{ project_name }}..."
+
+# Install just if not available
+if ! command -v just &> /dev/null; then
+    echo "📦 Installing just..."
+    {% if is_ontology_project -%}
+    # ODK container might need different installation method
+    if command -v curl &> /dev/null; then
+        curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/bin
+        echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+        export PATH="$HOME/bin:$PATH"
+    fi
+    {% else -%}
+    # Use package manager for other containers
+    if command -v apt-get &> /dev/null; then
+        apt-get update && apt-get install -y wget
+        wget -qO - 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
+        echo "deb [arch=all,amd64 signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | tee /etc/apt/sources.list.d/prebuilt-mpr.list
+        apt-get update && apt-get install -y just
+    elif command -v curl &> /dev/null; then
+        curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+    fi
+    {% endif -%}
+fi
+
+# Set up git if needed
+if [ -z "$(git config --global user.name)" ]; then
+    echo "⚙️ Setting up git configuration..."
+    git config --global user.name "Codespace User"
+    git config --global user.email "user@codespace.local"
+fi
+
+{% if is_python_project -%}
+# Python project setup
+if [ -f "requirements.txt" ]; then
+    echo "🐍 Installing Python dependencies..."
+    pip install -r requirements.txt
+elif [ -f "pyproject.toml" ]; then
+    echo "🐍 Installing Python dependencies from pyproject.toml..."
+    pip install -e .
+fi
+
+{% if is_linkml_schema -%}
+# LinkML schema specific setup
+if [ -f "pyproject.toml" ] && grep -q "linkml" pyproject.toml; then
+    echo "🔗 LinkML schema detected, installing LinkML tools..."
+    pip install linkml linkml-runtime
+fi
+{% endif -%}
+{% endif -%}
+
+{% if is_ontology_project -%}
+# ODK/Ontology project setup
+echo "🧬 Setting up ODK environment..."
+# ODK container should have everything pre-installed
+# Just ensure we're in the right directory
+cd /work
+{% endif -%}
+
+# Set up AI integrations if ai.just exists
+if [ -f "ai.just" ]; then
+    echo "🤖 AI integrations detected. Setting up..."
+    if [ -n "$GITHUB_TOKEN" ]; then
+        echo "📝 GitHub token found, running AI setup..."
+        just -f ai.just setup-ai || echo "⚠️  AI setup failed - you may need to configure manually"
+    else
+        echo "⚠️  GITHUB_TOKEN not set. You'll need to run 'just -f ai.just setup-ai' manually after setting up your token."
+    fi
+else
+    echo "ℹ️  No ai.just file found - skipping AI setup"
+fi
+
+echo "✅ Post-create setup complete!"
+echo "💡 Next steps:"
+echo "   - Review and update CLAUDE.md if it exists"
+echo "   - Configure your GitHub token if not already set"
+echo "   - Run 'just -f ai.just setup-ai' if you have GitHub access configured"
+{% endif -%}

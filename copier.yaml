@@ -54,6 +54,11 @@ is_ontology_project:
   help: Doe this repo contain the source/edit files for one or more ontologies?
   type: bool
   default: false
+
+include_devcontainer:
+  help: Include .devcontainer configuration for GitHub Codespaces and VS Code Dev Containers?
+  type: bool
+  default: true
   
 # === copier configuration options ===
 # https://copier.readthedocs.io/en/stable/configuring/#available-settings

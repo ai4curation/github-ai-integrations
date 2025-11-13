@@ -1,0 +1,60 @@
+{% if include_devcontainer -%}
+{
+  "name": "{{ project_name }}-devcontainer",
+  {% if is_ontology_project -%}
+  "image": "obolibrary/odkfull:latest",
+  
+  // Mount your repo where ODK expects it
+  "workspaceMount": "source=${localWorkspaceFolder},target=/work,type=bind,consistency=cached",
+  "workspaceFolder": "/work",
+  {% elif is_python_project -%}
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  {% else -%}
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  {% endif -%}
+
+  // Keep VS Code in control of the container command (safer than using image ENTRYPOINT)
+  "overrideCommand": true,
+
+  {% if is_ontology_project -%}
+  // Be root so you can add small tools if you need them (required for ODK)
+  "remoteUser": "root",
+  {% else -%}
+  "remoteUser": "vscode",
+  {% endif -%}
+  
+  "features": {
+    {% if not is_ontology_project -%}
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" },
+    {% endif -%}
+    "ghcr.io/devcontainers/features/git:1": {}
+    {% if is_python_project and not is_ontology_project -%}
+    ,
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" }
+    {% endif -%}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        {% if is_python_project -%}
+        "ms-python.python",
+        "ms-python.pylint",
+        {% endif -%}
+        {% if is_linkml_schema -%}
+        "redhat.vscode-yaml",
+        {% endif -%}
+        "ms-azuretools.vscode-docker",
+        "GitHub.copilot"
+      ]
+    }
+  },
+
+  "remoteEnv": {
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
+  },
+
+  "postCreateCommand": ".devcontainer/post_create.sh"
+}
+{% endif -%}
